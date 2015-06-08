@@ -1,4 +1,4 @@
-module buildutil.dmd;
+module buildutil.compiler.dmd;
 
 import buildutil;
 
