@@ -34,7 +34,7 @@ void copyCommonOptionsFrom(To, From)(auto ref To to, in auto ref From from) {
 
 mixin template CompilerSpecificOptions()
 {
-  Path objectFilePath;                   // dmd: -od
+  Path objectFilePath = Path(null);      // dmd: -od
   bool preserveSourceFilePaths = false;  // dmd: -op
   Path[] importPaths;                    // dmd: -I
   Path[] stringImportPaths;              // dmd: -J
@@ -54,7 +54,7 @@ void copyCompilerSpecificOptionsFrom(To, From)(auto ref To to, in auto ref From 
 mixin template LinkerSpecificOptions()
 {
   /// The path of the lib/dll/exe.
-  Path outFilePath;  // dmd: -of
+  Path outFilePath = Path(null);  // dmd: -of
 
   /// Raw linker flags.
   /// For better portability, you should use this field as little as possible.

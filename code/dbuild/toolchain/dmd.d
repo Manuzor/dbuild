@@ -3,6 +3,7 @@ import dbuild;
 
 import std.process;
 import std.array;
+import std.format : format;
 
 class DmdToolchain : Toolchain
 {
@@ -14,7 +15,6 @@ class DmdToolchain : Toolchain
   }
 
   string[] makeFlags(in ref ToolchainOptions options) {
-    import std.format : format;
     string[] flags;
 
     if(options.verbose) {
@@ -75,7 +75,7 @@ class DmdToolchain : Toolchain
     io.writefln("Executing: %s", cmd);
     auto status = spawnProcess(cmd).wait();
     if(status != 0) {
-      throw new BuildException(status, "Executing dmd failed.");
+      throw new BuildException(status, "Executing dmd failed with status code %s.".format(status));
     }
   }
 }
