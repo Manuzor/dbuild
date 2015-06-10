@@ -1,5 +1,5 @@
-module buildutil.toolchain.dmd;
-import buildutil;
+module dbuild.toolchain.dmd;
+import dbuild;
 
 import std.process;
 import std.array;

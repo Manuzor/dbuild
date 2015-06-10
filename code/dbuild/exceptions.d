@@ -1,4 +1,4 @@
-module buildutil.exceptions;
+module dbuild.exceptions;
 
 class BuildException : Exception
 {

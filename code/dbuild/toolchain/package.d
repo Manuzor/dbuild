@@ -1,5 +1,5 @@
-module buildutil.toolchain;
-import buildutil;
+module dbuild.toolchain;
+import dbuild;
 
 import std.array;
 

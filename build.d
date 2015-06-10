@@ -1,5 +1,5 @@
-import buildutil;
-import buildutil.toolchain.dmd;
+import dbuild;
+import dbuild.toolchain.dmd;
 
 import io = std.stdio;
 import std.array : array;

@@ -1,4 +1,4 @@
-module buildutil.script.buildscript;
+module dbuild.script.buildscript;
 
 template Resolve(T)
 {

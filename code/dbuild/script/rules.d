@@ -1,4 +1,4 @@
-module buildutil.script.rules;
+module dbuild.script.rules;
 
 struct Rule
 {
