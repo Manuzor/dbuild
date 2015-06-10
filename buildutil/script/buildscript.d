@@ -18,10 +18,8 @@ mixin template BuildScriptImpl(alias mod)
         static if(__traits(compiles, Resolve!(__traits(getMember, mod, m)))) {
           alias Class = Resolve!(__traits(getMember, mod, m));
           static if(is(Class == class)) {
-            pragma(msg, "Class found! " ~ Class.stringof);
             foreach(uda; __traits(getAttributes, Class)) {
               static if(is(typeof(uda) == Rule)) {
-                pragma(msg, "+++ Found rule `" ~ uda.name ~ "`: class " ~ Class.stringof);
                 rules[uda.name] = new RuleWrapper!Class();
               }
             }

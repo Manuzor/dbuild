@@ -1,6 +1,7 @@
 import buildutil;
-import buildutil.compiler.dmd;
+import buildutil.toolchain.dmd;
 
+import io = std.stdio;
 import std.array : array;
 
 // Make this D file a build script.
@@ -10,11 +11,14 @@ mixin BuildScript;
 @Rule("lib")
 class Lib
 {
-  auto compiler = new DmdCompiler();
+  auto tc = new DmdToolchain();
 
   void build() {
-    auto opts = CompilerOptions();
-    compiler.compile(opts, Path().glob("code/*.d").array);
+    auto opts = ToolchainOptions();
+    opts.arch = Arch.x86_64;
+    opts.outFilePath = Path("output") ~ "lib";
+    opts.importPaths ~= Path("pathlib") ~ "code";
+    tc.build(opts, Path().glob("*.d").filter!(a => a != Path("build.d")).array);
   }
 }
 
@@ -22,10 +26,9 @@ class Lib
 @Dependencies(["lib"])
 class App
 {
-  auto compiler = new DmdCompiler();
+  auto tc = new DmdToolchain();
 
   void build() {
-    import io = std.stdio;
     io.writeln("Hello from the `app` rule!");
   }
 }
