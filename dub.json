@@ -13,7 +13,7 @@
 
       "targetName": "dbuild",
       "targetType": "library",
-      "targetPath": "output",
+      "targetPath": "output/lib",
 
       "sourcePaths": ["code"],
       "importPaths": ["code"],
@@ -28,7 +28,7 @@
 
       "targetName": "dbuild",
       "targetType": "executable",
-      "targetPath": "output",
+      "targetPath": "output/bin",
 
       "sourcePaths": ["code"],
       "importPaths": ["code"],
