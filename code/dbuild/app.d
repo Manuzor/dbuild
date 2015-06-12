@@ -56,6 +56,7 @@ Options:}".format(Path(Runtime.args[0]).name);
 }
 
 int main(string[] strargs) {
+  log.infof("Working dir: %s", cwd());
   Args args;
   try {
     args = Args.parse(strargs);
@@ -78,27 +79,36 @@ int main(string[] strargs) {
     log.errorf("Build script does not exist: %s", buildScript);
   }
 
-  auto pathlibPath = Path("thirdParty") ~ "pathlib";
+  auto installDir = currentExePath().parent.parent;
+  log.infof("Install dir: %s".format(installDir));
+  auto commonLibDir = installDir ~ "lib";
+  auto commonImportDir = installDir ~ "import";
   auto temp = Path(".dbuild");
 
   log.info("+++ Building script %s +++".format(buildScript));
   auto dmd = new DmdToolchain();
   auto opts = ToolchainOptions();
   opts.verbose = args.verbose;
+  opts.arch = Arch.x86_64;
   //opts.dryRun = true;
   opts.debugSymbols = DebugSymbols.C;
   opts.outFilePath = temp ~ "build";
   opts.objectFilePath = temp;
   opts.importPaths = [
-    Path("import"),
+     commonImportDir,
   ];
   auto files = [buildScript]
-             ~ Path("lib").glob("*.lib").array;
+             ~ commonLibDir.glob("*.lib").array;
   dmd.build(opts, files);
   if(opts.dryRun) {
     return 0;
   }
+  auto buildExecutable = opts.outFilePath;
+  if(!buildExecutable.exists) {
+    buildExecutable = buildExecutable.parent ~ "%s.exe".format(buildExecutable.stem);
+  }
+  buildExecutable = buildExecutable.resolved();
   import std.process;
-  log.infof("Running build: %s", opts.outFilePath);
-  return spawnProcess(opts.outFilePath.normalizedData).wait();
+  log.infof("Running build: %s", buildExecutable);
+  return spawnProcess(buildExecutable.normalizedData).wait();
 }
