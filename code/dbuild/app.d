@@ -40,13 +40,13 @@ Options:}".format(Path(Runtime.args[0]).name);
 
       if(helpInfo.helpWanted) {
         defaultGetoptPrinter(usage(), helpInfo.options);
-        throw new ArgsException(1, "Parsing commandline options failed.");
+        throw new ArgsException(0, "Parsing commandline options failed.");
       }
 
       args = args[1..$];
       if(args.empty) {
         defaultGetoptPrinter(usage(), helpInfo.options);
-        throw new ArgsException(2, "Missing required 'sourcePath' argument.");
+        throw new ArgsException(1, "Missing required 'sourcePath' argument.");
       }
 
       sourcePath = Path(args[0]);
@@ -56,7 +56,17 @@ Options:}".format(Path(Runtime.args[0]).name);
 }
 
 int main(string[] strargs) {
-  auto args = Args.parse(strargs);
+  Args args;
+  try {
+    args = Args.parse(strargs);
+  }
+  catch(ArgsException e) {
+    if(e.status == 0) {
+      return 0;
+    }
+    log.errorf("%s".format(e));
+    return e.status;
+  }
   if(!args.sourcePath.exists) {
     log.errorf("Given path to source dir does not exist: %s", args.sourcePath);
   }
@@ -80,14 +90,10 @@ int main(string[] strargs) {
   opts.outFilePath = temp ~ "build";
   opts.objectFilePath = temp;
   opts.importPaths = [
-    Path("code"),
-    pathlibPath ~ "code",
+    Path("import"),
   ];
-  auto files = [
-    buildScript,
-    Path("output") ~ "dbuild.lib",
-    pathlibPath ~ "output" ~ "pathlib.lib",
-  ];
+  auto files = [buildScript]
+             ~ Path("lib").glob("*.lib").array;
   dmd.build(opts, files);
   if(opts.dryRun) {
     return 0;
