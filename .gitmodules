@@ -1,3 +1,3 @@
-[submodule "pathlib"]
-	path = pathlib
+[submodule "thirdParty/pathlib"]
+	path = thirdParty/pathlib
 	url = ../pathlib

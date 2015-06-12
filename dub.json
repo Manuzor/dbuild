@@ -1,0 +1,40 @@
+{
+  "name": "dbuild",
+  "description": "D build system.",
+  "license": "MIT",
+  "copyright": "Copyright © 2015, manuzor",
+  "authors": ["manuzor"],
+
+  "targetType": "none",
+
+  "subPackages": [
+    {
+      "name": "lib",
+
+      "targetName": "dbuild",
+      "targetType": "library",
+      "targetPath": "output",
+
+      "sourcePaths": ["code"],
+      "importPaths": ["code"],
+      "excludedSourceFiles": ["code/dbuild/app.d"],
+
+      "dependencies": {
+        "pathlib": { "path": "thirdParty/pathlib" }
+      }
+    },
+    {
+      "name": "app",
+
+      "targetName": "dbuild",
+      "targetType": "executable",
+      "targetPath": "output",
+
+      "sourcePaths": ["code"],
+      "importPaths": ["code"],
+      "mainSourceFile": "code/dbuild/app.d",
+
+      "dependencies": { "dbuild:lib": "*" }
+    }
+  ]
+}

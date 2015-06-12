@@ -62,6 +62,10 @@ class DmdToolchain : Toolchain
       flags ~= format("-L%-(%s;%)", options.lflags);
     }
 
+    if(options.importPaths && !options.importPaths.empty) {
+      flags ~= format("-I%-(%s;%)", options.importPaths);
+    }
+
     return flags;
   }
 
@@ -69,10 +73,13 @@ class DmdToolchain : Toolchain
     assert(!files.empty, "No source files given.");
     auto flags = makeFlags(options);
 
-    auto cmd = ["dmd"]
+    auto cmd = [dmdExecutable]
              ~ flags
              ~ files.map!(a => cast(string)a.normalizedData).array;
-    io.writefln("Executing: %s", cmd);
+    log.infof("Executing: %s", cmd);
+    if(options.dryRun) {
+      return;
+    }
     auto status = spawnProcess(cmd).wait();
     if(status != 0) {
       throw new BuildException(status, "Executing dmd failed with status code %s.".format(status));

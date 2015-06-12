@@ -5,7 +5,8 @@ public import dbuild.script;
 public import dbuild.toolchain;
 
 // std
-public import io = std.stdio;
+import log = std.experimental.logger;
+import std.format : format;
 
 // External
 public import pathlib;

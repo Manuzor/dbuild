@@ -8,8 +8,6 @@ template Resolve(T)
 mixin template BuildScriptImpl(alias mod)
 {
   int main(string[] args) {
-    import io = std.stdio;
-    io.writeln("Hellooo!");
 
     IRule[string] rules;
 
@@ -28,7 +26,7 @@ mixin template BuildScriptImpl(alias mod)
       }
     }
 
-    io.writefln("Rules: %(\n  %s: %)", rules);
+    log.info("Rules: %(\n  %s: %)".format(rules));
 
     foreach(n, r; rules) {
       r.configure(args);

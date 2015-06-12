@@ -1,6 +1,9 @@
 module dbuild.toolchain;
 import dbuild;
 
+// Exports
+public import dbuild.toolchain.dmd;
+
 import std.array;
 
 enum Arch
@@ -21,6 +24,7 @@ mixin template CommonOptionsMixin()
 {
   Arch arch;             // dmd: -m32 or -m64
   bool verbose = false;  // dmd: -v
+  bool dryRun = false;
 }
 
 /// Usage:
