@@ -10,16 +10,21 @@ function main()
     return 1
   fi
 
+  # Create the destination directory
+  mkdir -p "$dest"
+
+  # Source files
+  # ============
   mkdir -p "$dest/import"
   cp -r code/. "$dest/import/"
   cp -r thirdParty/pathlib/code/. "$dest/import"
 
-  mkdir -p "$dest/lib"
-  cp -r output/lib/. "$dest/lib"
-  cp thirdParty/pathlib/output/pathlib.lib "$dest/lib"
-
-  mkdir -p "$dest/bin"
-  cp -r output/bin/. "$dest/bin"
+  # Binaries
+  # ========
+  # Our own output.
+  cp -r output/. "$dest"
+  # pathlib output.
+  cp -r thirdParty/pathlib/output/. "$dest"
 }
 
 main $*
