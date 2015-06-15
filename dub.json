@@ -20,7 +20,22 @@
       "excludedSourceFiles": ["code/dbuild/app.d"],
 
       "dependencies": {
-        "pathlib": { "path": "thirdParty/pathlib" }
+        "pathlib:lib": { "path": "thirdParty/pathlib" }
+      }
+    },
+    {
+      "name": "lib64",
+
+      "targetName": "dbuild",
+      "targetType": "library",
+      "targetPath": "output/lib64",
+
+      "sourcePaths": ["code"],
+      "importPaths": ["code"],
+      "excludedSourceFiles": ["code/dbuild/app.d"],
+
+      "dependencies": {
+        "pathlib:lib64": { "path": "thirdParty/pathlib" }
       }
     },
     {
@@ -35,6 +50,19 @@
       "mainSourceFile": "code/dbuild/app.d",
 
       "dependencies": { "dbuild:lib": "*" }
+    },
+    {
+      "name": "app64",
+
+      "targetName": "dbuild",
+      "targetType": "executable",
+      "targetPath": "output/bin64",
+
+      "sourcePaths": ["code"],
+      "importPaths": ["code"],
+      "mainSourceFile": "code/dbuild/app.d",
+
+      "dependencies": { "dbuild:lib64": "*" }
     }
   ]
 }
